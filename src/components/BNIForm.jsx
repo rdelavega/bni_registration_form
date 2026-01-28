@@ -3,9 +3,9 @@ import Spinner from "./Spinner";
 
 export default function BNIYucatanRegistro({ registerType }) {
   const [formData, setFormData] = useState({
-    nombre: "",
+    firstname: "",
     email: "",
-    telefono: "",
+    phone: "",
     giro: "",
     capitulo: "",
     terms: false,
@@ -17,25 +17,30 @@ export default function BNIYucatanRegistro({ registerType }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    setError(null);
-    if (!formData.nombre || !formData.email || !formData.giro) {
-      alert("Por favor completa todos los campos requeridos");
-      return;
-    }
+    // if (!formData.firstname || !formData.email || !formData.giro) {
+    //   alert("Por favor completa todos los campos requeridos");
+    //   return;
+    // }
     if (!formData.terms) {
       alert("Debes aceptar el Aviso de Privacidad");
       return;
     }
     try {
+      setLoading(true);
+      setError(null);
       console.log("Form submitted:", formData);
-      const response = await fetch("api/route");
+      const response = await fetch("api/v1/contacts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
       if (!response.ok) {
         throw new Error("Something went wrong on the server");
       }
       const data = await response.json();
       console.log(data);
-
       alert("¡Registro completado exitosamente!");
     } catch (err) {
       setError(err.message);
