@@ -1,49 +1,86 @@
 import React, { useState } from "react";
 import Spinner from "./Spinner";
+import BugReportModal from "./BugReportModal";
 
 export default function BNIYucatanRegistro({ registerType }) {
   const [formData, setFormData] = useState({
     firstname: "",
+    lastname: "",
     email: "",
     phone: "",
     giro: "",
     capitulo: "",
-    terms: false,
-    registerType: registerType,
+    periodo: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const [showToast, setShowToast] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // if (!formData.firstname || !formData.email || !formData.giro) {
-    //   alert("Por favor completa todos los campos requeridos");
-    //   return;
-    // }
-    if (!formData.terms) {
-      alert("Debes aceptar el Aviso de Privacidad");
+    if (
+      !formData.firstname ||
+      !formData.lastname ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.giro ||
+      !formData.capitulo ||
+      !formData.periodo
+    ) {
+      alert("Por favor completa todos los campos requeridos");
       return;
     }
+
     try {
       setLoading(true);
       setError(null);
-      console.log("Form submitted:", formData);
-      const response = await fetch("api/v1/contacts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        throw new Error("Something went wrong on the server");
+      if (registerType === "invitado") {
+        const response = await fetch(
+          "http://localhost:3001/api/bni/v1/invitado",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          },
+        );
+        if (!response.ok) {
+          setError("Algo salió mal en el servidor");
+        }
+        const data = await response.json();
+        console.log(data);
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
+      } else {
+        const response = await fetch(
+          "http://localhost:3001/api/bni/v1/renovacion",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          },
+        );
+        if (!response.ok) {
+          setError("Algo salió mal en el servidor");
+        }
+        const data = await response.json();
+        console.log(data);
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
       }
-      const data = await response.json();
-      console.log(data);
-      alert("¡Registro completado exitosamente!");
     } catch (err) {
-      setError(err.message);
+      setError(
+        "No se pudo enviar el formulario: Intenta de nuevo",
+        err.message,
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,7 +93,7 @@ export default function BNIYucatanRegistro({ registerType }) {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col lg:flex-row bg-slate-50">
+    <div className=" font-bni flex min-h-screen w-full flex-col lg:flex-row bg-slate-50">
       {/* Left Side - Hero Section */}
       <div
         className="relative hidden w-full items-center justify-center bg-cover bg-center lg:flex lg:w-1/2"
@@ -167,33 +204,63 @@ export default function BNIYucatanRegistro({ registerType }) {
           </div>
 
           <div className="flex flex-col gap-6">
-            {/* Nombre Completo */}
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-slate-700">
-                Nombre Completo
-              </label>
-              <div className="relative">
-                <svg
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            {/* Nombre y apellido */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Nombre
+                </label>
+                <div className="relative">
+                  <svg
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    name="firstname"
+                    value={formData.firstname}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-slate-200 bg-slate-50 py-3.5 pl-12 pr-4 text-sm outline-none transition-all focus:border-red-600 focus:ring-1 focus:ring-red-600"
+                    placeholder="Ej. Juan"
                   />
-                </svg>
-                <input
-                  type="text"
-                  name="nombre"
-                  value={formData.nombre}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border border-slate-200 bg-slate-50 py-3.5 pl-12 pr-4 text-sm outline-none transition-all focus:border-red-600 focus:ring-1 focus:ring-red-600"
-                  placeholder="Ej. Juan Pérez García"
-                />
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Apellido
+                </label>
+                <div className="relative">
+                  <svg
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    name="lastname"
+                    value={formData.lastname}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-slate-200 bg-slate-50 py-3.5 pl-12 pr-4 text-sm outline-none transition-all focus:border-red-600 focus:ring-1 focus:ring-red-600"
+                    placeholder="Ej. Peréz García"
+                  />
+                </div>
               </div>
             </div>
 
@@ -247,8 +314,8 @@ export default function BNIYucatanRegistro({ registerType }) {
                   </svg>
                   <input
                     type="tel"
-                    name="telefono"
-                    value={formData.telefono}
+                    name="phone"
+                    value={formData.phone}
                     onChange={handleChange}
                     className="w-full rounded-lg border border-slate-200 bg-slate-50 py-3.5 pl-12 pr-4 text-sm outline-none transition-all focus:border-red-600 focus:ring-1 focus:ring-red-600"
                     placeholder="+52 999 000 0000"
@@ -257,7 +324,7 @@ export default function BNIYucatanRegistro({ registerType }) {
               </div>
             </div>
 
-            {/* Giro and Capitulo */}
+            {/* Giro y Capitulo */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-semibold text-slate-700">
@@ -309,26 +376,62 @@ export default function BNIYucatanRegistro({ registerType }) {
                     name="capitulo"
                     value={formData.capitulo}
                     onChange={handleChange}
-                    className="w-full appearance-none rounded-lg border border-slate-200 bg-slate-50 py-3.5 pl-12 pr-10 text-sm outline-none transition-all focus:border-red-600 focus:ring-1 focus:ring-red-600"
+                    className="w-full rounded-lg border border-slate-200 bg-slate-50 py-3.5 pl-12 pr-4 text-sm outline-none transition-all focus:border-red-600 focus:ring-1 focus:ring-red-600"
                   >
                     <option value="">Selecciona el Capitulo</option>
-                    <option value="Kukulkan">Kukulkán</option>
-                    <option value="Mayab">Mayab</option>
-                    <option value="Balamku">Balamkú</option>
-                    <option value="Kinich">Kinich</option>
-                    <option value="Paajtal">Páajtal</option>
-                    <option value="Sayab">Sayab</option>
-                    <option value="Saasil">Sáasil</option>
-                    <option value="Ya'abkun">Ya'abkún</option>
-                    <option value="Ya'axche">Ya'axché</option>
-                    <option value="Yumkaax">Yum Kaax</option>
+                    <option value="KUKULKAN">KUKULKAN</option>
+                    <option value="MAYAB">MAYAB</option>
+                    <option value="BALAMKU">BALAMKU</option>
+                    <option value="KINICH">KINICH</option>
+                    <option value="PAAJTAL">PAAJTAL</option>
+                    <option value="SAYAB">SAYAB</option>
+                    <option value="SAASIL">SAASIL</option>
+                    <option value="YA'ABKUN">YA'ABKUN</option>
+                    <option value="YA'AXCHE">YA'AXCHE</option>
+                    <option value="YUM KAAX">YUM KAAX</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Select period of membership */}
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-semibold text-slate-700">
+                  Por cuanto tiempo te gustaría que dure tu experiencia?
+                </label>
+                <div className="relative">
+                  <svg
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                    />
+                  </svg>
+                  <select
+                    name="periodo"
+                    value={formData.periodo}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-slate-200 bg-slate-50 py-3.5 pl-12 pr-4 text-sm outline-none transition-all focus:border-red-600 focus:ring-1 focus:ring-red-600"
+                  >
+                    <option value="">Por cuanto tiempo?</option>
+                    <option value="1 año">1 año</option>
+                    <option value="2 años">2 años</option>
+                    <option value="5 años">5 años</option>
                   </select>
                 </div>
               </div>
             </div>
 
             {/* Terms and Conditions */}
-            <div className="flex items-start gap-3 pt-2">
+            {/* <div className="flex items-start gap-3 pt-2">
               <div className="flex h-5 items-center">
                 <input
                   type="checkbox"
@@ -353,7 +456,7 @@ export default function BNIYucatanRegistro({ registerType }) {
                 y los términos de uso corporativos para el manejo de mi
                 información laboral.
               </label>
-            </div>
+            </div> */}
 
             {/* Submit Button */}
             <div className="mt-4">
@@ -371,17 +474,91 @@ export default function BNIYucatanRegistro({ registerType }) {
                     : "Solicitud de Renovación"}
               </button>
             </div>
+            {/* Desktop Bug Report */}
+            {/* <div className="mt-4 hidden lg:flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="text-sm text-slate-400 hover:text-red-600 transition-colors underline-offset-4 hover:underline"
+              >
+                ¿Encontraste un problema?
+              </button>
+            </div> */}
+            {/* Spinner */}
+            {showToast && (
+              <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-xl bg-green-600 px-5 py-3 text-white shadow-lg animate-fade-in">
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Formulario enviado</span>
+              </div>
+            )}
+            {error && (
+              <div className="mt-4 flex items-center gap-2 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01M12 5a7 7 0 110 14a7 7 0 010-14z"
+                  />
+                </svg>
+                {error}
+              </div>
+            )}
           </div>
         </div>
 
         {/* Mobile Footer */}
         <footer className="mt-auto border-t border-slate-100 p-6 lg:hidden">
+          {/* Report Bug Mobile Button */}
+          {/* <div className="m-5">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-md bg-red-600 text-white font-semibold shadow-lg hover:bg-red-700 hover:-translate-y-0.5 transition-all"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+              Reportar un Problema
+            </button>
+          </div> */}
+
           <p className="text-center text-xs text-slate-400">
             © 2025 BNI Global LLC. All Rights Reserved. All company names,
             product names logos included here may be registered trademarks or
             service marks of their respective owners.
           </p>
         </footer>
+        <BugReportModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
       </div>
     </div>
   );
