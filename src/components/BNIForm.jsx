@@ -399,7 +399,9 @@ export default function BNIYucatanRegistro({ registerType }) {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-semibold text-slate-700">
-                  Por cuanto tiempo te gustaría que dure tu experiencia?
+                  Por cuanto tiempo te gustaría que{" "}
+                  {registerType == "invitado" ? "dure" : "continúe"} tu
+                  experiencia?
                 </label>
                 <div className="relative">
                   <svg

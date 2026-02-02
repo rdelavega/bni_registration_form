@@ -75,9 +75,8 @@ export default function SelectRegisterType({ onSelect }) {
 
           {/* Renovación Card */}
           <button
-            disabled
             onClick={() => onSelect("renovacion")}
-            className="group relative overflow-hidden rounded-2xl disabled:bg-gray-200 border-2 border-slate-200 bg-white p-10 text-left transition-all hover:border-red-600 hover:shadow-2xl hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-red-600/30"
+            className="group relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-10 text-left transition-all hover:border-red-600 hover:shadow-2xl hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-red-600/30"
           >
             <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-red-600/5 to-transparent rounded-bl-full transition-all group-hover:scale-150 group-hover:from-red-600/10"></div>
 
@@ -101,10 +100,6 @@ export default function SelectRegisterType({ onSelect }) {
               <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-red-600 transition-colors">
                 Soy Networker
               </h3>
-
-              <p>
-                <strong>(Seccion de renovaciones aún en desarrollo.)</strong>
-              </p>
 
               <p className="text-slate-600 mb-6 leading-relaxed">
                 Ya eres parte de BNI. Renueva tu membresía y continúa creciendo
