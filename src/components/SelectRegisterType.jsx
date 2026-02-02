@@ -8,7 +8,7 @@ export default function SelectRegisterType({ onSelect }) {
             <img
               alt="BNI Logo"
               className="h-18 w-auto"
-              src="/src/assets/bni-logo-transparent.png"
+              src="/bni-logo-transparent.png"
             />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-4">
