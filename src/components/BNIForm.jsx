@@ -19,6 +19,8 @@ export default function BNIYucatanRegistro({ registerType }) {
   const [showToast, setShowToast] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (
@@ -38,16 +40,13 @@ export default function BNIYucatanRegistro({ registerType }) {
       setLoading(true);
       setError(null);
       if (registerType === "invitado") {
-        const response = await fetch(
-          "http://localhost:3001/api/bni/v1/invitado",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
+        const response = await fetch(`${API_URL}/invitado`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify(formData),
+        });
         if (!response.ok) {
           setError("Algo salió mal en el servidor");
         }
@@ -56,16 +55,13 @@ export default function BNIYucatanRegistro({ registerType }) {
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3000);
       } else {
-        const response = await fetch(
-          "http://localhost:3001/api/bni/v1/renovacion",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
+        const response = await fetch(`${API_URL}/renovacion`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify(formData),
+        });
         if (!response.ok) {
           setError("Algo salió mal en el servidor");
         }
