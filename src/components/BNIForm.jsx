@@ -422,7 +422,6 @@ export default function BNIYucatanRegistro({ registerType }) {
                     <option value="">Por cuanto tiempo?</option>
                     <option value="1 año">1 año</option>
                     <option value="2 años">2 años</option>
-                    <option value="5 años">5 años</option>
                   </select>
                 </div>
               </div>
