@@ -108,7 +108,7 @@ export default function BNIYucatanRegistro({ registerType }) {
             <img
               alt="BNI Logo"
               className="h-16 w-auto"
-              src="/src/assets/bni-logo-transparent.png"
+              src="/bni-logo-transparent.png"
             />
             <div className="h-12 w-[2px] bg-white/40"></div>
             <div className="flex flex-col">
@@ -173,7 +173,7 @@ export default function BNIYucatanRegistro({ registerType }) {
             <img
               alt="BNI Logo"
               className="h-8 w-auto"
-              src="/src/assets/bni-logo-transparent.png"
+              src="/bni-logo-transparent.png"
             />
             <div className="h-6 w-[1px] bg-slate-200"></div>
             <h2 className="text-lg font-bold text-slate-900">Yucatán</h2>
@@ -187,7 +187,7 @@ export default function BNIYucatanRegistro({ registerType }) {
               <img
                 alt="BNI Logo"
                 className="h-18 w-auto"
-                src="/src/assets/bni-logo-transparent.png"
+                src="/bni-logo-transparent.png"
               />
             </div>
             <h2 className="text-4xl font-bold tracking-tight text-slate-900">
