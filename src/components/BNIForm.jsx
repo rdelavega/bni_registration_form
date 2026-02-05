@@ -313,6 +313,7 @@ export default function BNIYucatanRegistro({ registerType }) {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    maxLength={"10"}
                     className="w-full rounded-lg border border-slate-200 bg-slate-50 py-3.5 pl-12 pr-4 text-sm outline-none transition-all focus:border-red-600 focus:ring-1 focus:ring-red-600"
                     placeholder="+52 999 000 0000"
                   />
