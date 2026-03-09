@@ -2,7 +2,7 @@
 
 A modern, responsive web application for managing BNI (Business Network International) membership registrations in the Yucatán chapter. This form allows both guest registrations (invitados) and membership renewals (renovación).
 
-## ✨ Features
+## Features
 
 - **Dual Registration Modes**
   - Guest Registration (Invitado) - For new attendees
@@ -26,7 +26,7 @@ A modern, responsive web application for managing BNI (Business Network Internat
   - Separate endpoints for guest and renewal submissions
   - Error handling and user feedback
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend Framework**: React 19
 - **Styling**: Tailwind CSS 4 with Vite plugin
@@ -35,12 +35,12 @@ A modern, responsive web application for managing BNI (Business Network Internat
 - **Code Quality**: ESLint
 - **Node.js**: Module-based ES6+
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Node.js 18+
 - npm or yarn
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Installation
 
@@ -97,7 +97,7 @@ Check code quality with ESLint:
 npm lint
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 bni_registration_form/
@@ -134,7 +134,7 @@ The following environment variables can be configured:
 
 Custom Tailwind configuration is available in `tailwind.config.js`. The project uses Tailwind CSS v4 with Vite plugin for optimal performance.
 
-## 📝 Form Fields
+## Form Fields
 
 The registration form collects the following information:
 
@@ -146,7 +146,7 @@ The registration form collects the following information:
 - **Chapter** (Capítulo) - Required
 - **Period** (Período) - Required
 
-## 🔌 API Integration
+## API Integration
 
 ### Guest Registration Endpoint
 
@@ -174,7 +174,7 @@ Both endpoints expect the same request body format:
 }
 ```
 
-## 🎨 Component Overview
+## Component Overview
 
 - **SelectRegisterType**: Landing page with two registration option cards
 - **BNIForm**: Main registration form with validation and submission logic
@@ -182,7 +182,7 @@ Both endpoints expect the same request body format:
 - **BugReportModal**: Built-in bug reporting feature for users
 - **Spinner**: Loading indicator component
 
-## 📱 Responsive Design
+## Responsive Design
 
 The application is fully responsive with breakpoints for:
 
@@ -190,14 +190,14 @@ The application is fully responsive with breakpoints for:
 - Tablets (768px - 1024px)
 - Desktop (> 1024px)
 
-## 🐛 Error Handling
+## Error Handling
 
 - Form validation before submission
 - Server error messages displayed to users
 - Network error handling with user-friendly messages
 - Toast notifications for successful submissions
 
-## 🚢 Deployment
+## Deployment
 
 To deploy this application:
 
@@ -213,13 +213,6 @@ npm run build
 
 4. Configure the `VITE_API_URL` environment variable in your hosting platform
 
-## 📄 License
-
-[Add your license information here]
-
-## 👥 Contributing
-
-[Add contributing guidelines here]
 
 ## 📞 Support
 
