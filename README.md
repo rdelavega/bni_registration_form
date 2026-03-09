@@ -120,7 +120,7 @@ bni_registration_form/
 └── index.html                       # HTML entry point
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -212,8 +212,3 @@ npm run build
 3. Deploy the `dist/` folder to your hosting service (Vercel, Netlify, etc.)
 
 4. Configure the `VITE_API_URL` environment variable in your hosting platform
-
-
-## 📞 Support
-
-For bug reports or feature requests, use the integrated bug report modal in the application or contact the development team.
