@@ -386,6 +386,8 @@ export default function BNIYucatanRegistro({ registerType }) {
                     <option value="YA'ABKUN">YA'ABKUN</option>
                     <option value="YA'AXCHE">YA'AXCHE</option>
                     <option value="YUM KAAX">YUM KAAX</option>
+                    <option value="MUUCH">MUUCH</option>
+                    <option value="KA'AJAL">KA'AJAL</option>
                   </select>
                 </div>
               </div>
